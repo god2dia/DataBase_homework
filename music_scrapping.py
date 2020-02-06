@@ -37,7 +37,7 @@ for music in musics:
     print(artist)
 
     image = 'https:' + str(music.select_one('img').attrs['src'])
-    # image = str(music.select_one('img').attrs['src']).replace('//','') 알려주신 방
+    # image = str(music.select_one('img').attrs['src']).replace('//','') 알려주신 방법
     # output //image.genie.co.kr/Y/IMAGE/IMG_ALBUM/081/297/613/81297613_1574066356132_1_140x140.JPG
     print(image)
 
