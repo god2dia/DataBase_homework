@@ -29,6 +29,7 @@ music_data = {
 }
 
 for music in musics:
+    print(rank, end=''+ '위:')
     title = str(music.select_one('td.info > a.title.ellipsis').text).strip()
     # td.info > a.title or td > a.title도 같은 결과 출력되지만 경로를 정확하게 하는게 좋
     print(title)
@@ -39,7 +40,7 @@ for music in musics:
     image = 'https:' + str(music.select_one('img').attrs['src'])
     # image = str(music.select_one('img').attrs['src']).replace('//','') 알려주신 방법
     # output //image.genie.co.kr/Y/IMAGE/IMG_ALBUM/081/297/613/81297613_1574066356132_1_140x140.JPG
-    print(image)
+    print(image + '\n')
 
 
     music_data = {
