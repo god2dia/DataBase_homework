@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
-from pymongo import MongoClient  # pymongo를 임포트 하기(패키지 인스톨 먼저 해야겠죠?)
+from pymongo import MongoClient  # pymongo를 임포트 하기
 
 client = MongoClient('localhost', 27017)  # mongoDB는 27017 포트로 돌아갑니다.
 db = client.dbsparta  # 'dbsparta'라는 이름의 db를 만듭니다.
@@ -20,28 +20,31 @@ soup = BeautifulSoup(data.text, 'html.parser')
 # select를 이용해서, tr들을 불러오기
 musics = soup.select('#body-content > div.newest-list > div > table > tbody > tr')
 
-rank = 1
+# 수두코드 (프로그래밍 흐름 설명하기 위한 코드
 music_data = {
-    'rank': rank,
+    'rank': '',
     'image':'',
     'title':'',
     'artist':''
 }
 
 for music in musics:
-    print(rank, end=''+ '위:')
+    # rank = music.select_one('td.number').text.split()[0].rstrip() #두가지 방법중 하
+    rank = music.select_one('td.number').text.split()[0]
+    print(rank,end='' + '위:')
+
+
     title = str(music.select_one('td.info > a.title.ellipsis').text).strip()
-    # td.info > a.title or td > a.title도 같은 결과 출력되지만 경로를 정확하게 하는게 좋
+    # td.info > a.title or td > a.title도 같은 결과 출력되지만 경로를 정확하게 하는게 좋다
     print(title)
 
     artist = str(music.select_one('td.info > a.artist.ellipsis').text)
     print(artist)
 
     image = 'https:' + str(music.select_one('img').attrs['src'])
-    # image = str(music.select_one('img').attrs['src']).replace('//','') 알려주신 방법
+    # image = str(music.select_one('img').attrs['src']).replac('//','') 알려주신 방법
     # output //image.genie.co.kr/Y/IMAGE/IMG_ALBUM/081/297/613/81297613_1574066356132_1_140x140.JPG
-    print(image + '\n')
-
+    print(image+ '\n')
 
     music_data = {
         'rank': rank,
@@ -50,4 +53,4 @@ for music in musics:
         'artist': artist
     }
     db.musics.insert_one(music_data)#db에 data넣기
-    rank += 1
+
